@@ -1,0 +1,8 @@
+name: customer_orders_pipeline
+version: '1.0.0'
+config-version: 2
+
+profile: customer_orders_pipeline
+
+model-paths: ['models']
+seed-paths: ['seeds']

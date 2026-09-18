@@ -1,0 +1,8 @@
+.venv
+.dagster
+data
+target
+logs
+submission
+__pycache__
+*.zip

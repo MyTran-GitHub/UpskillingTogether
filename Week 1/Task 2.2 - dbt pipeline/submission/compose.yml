@@ -1,0 +1,20 @@
+services:
+  dagster:
+    build: .
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      DAGSTER_HOME: /app/.dagster
+      DAGSTER_TELEMETRY_ENABLED: "false"
+    command:
+      - dagster
+      - dev
+      - -f
+      - orchestration/definitions.py
+      - -h
+      - 0.0.0.0
+      - -p
+      - "3000"
