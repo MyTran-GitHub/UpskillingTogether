@@ -16,7 +16,7 @@ DBT = str(LOCAL_DBT) if LOCAL_DBT.exists() else shutil.which("dbt")
 if DBT is None:
     raise RuntimeError("dbt is not installed in .venv or on PATH")
 DATABASE = ROOT / "data" / "pipeline.duckdb"
-SUBMISSION = ROOT / "submission"
+OUTPUT = ROOT
 COLUMNS = (
     "customer_id",
     "customer_name",
@@ -64,13 +64,13 @@ refresh_rows = read_mart()
 if incremental_rows != refresh_rows:
     raise AssertionError("Incremental result differs from the full refresh")
 
-SUBMISSION.mkdir(exist_ok=True)
-with (SUBMISSION / "customer_orders.csv").open("w", newline="") as file:
+OUTPUT.mkdir(exist_ok=True)
+with (OUTPUT / "customer_orders.csv").open("w", newline="") as file:
     writer = csv.writer(file)
     writer.writerow(COLUMNS)
     writer.writerows(refresh_rows)
 
-(SUBMISSION / "NOTES.md").write_text(
+(OUTPUT / "NOTES.md").write_text(
     f"""# Incremental demonstration
 
 - Initial batch: orders through 2025-03-31 (2,500 raw orders; 1,698 qualifying orders).
@@ -93,4 +93,4 @@ with (SUBMISSION / "customer_orders.csv").open("w", newline="") as file:
 
 print(f"incremental: {incremental_seconds:.3f}s; full refresh: {refresh_seconds:.3f}s")
 print(f"qualifying orders: {qualifying_count}; customers: {len(refresh_rows)}")
-print("incremental result equals full refresh; exported submission/customer_orders.csv")
+print("incremental result equals full refresh; exported customer_orders.csv")

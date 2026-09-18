@@ -77,7 +77,7 @@ def export_mart(context: OpExecutionContext, _tested: str) -> None:
         rows = connection.execute(
             "select * from main.customer_orders order by customer_id"
         ).fetchall()
-    destination = ROOT / "submission" / "customer_orders.csv"
+    destination = ROOT / "customer_orders.csv"
     destination.parent.mkdir(exist_ok=True)
     with destination.open("w", newline="") as file:
         writer = csv.writer(file)
